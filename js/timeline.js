@@ -33,15 +33,32 @@ window.onload = function() {
         },
         receive: function(event, ui) {
             if($(this)[0].id == 'timeline_list') { //ui.item.parent()[0].id
-                $.post('http://evening-sands-2459.herokuapp.com/v1/timeline', {id: ui.item[0].id})
-                .done(function() {console.log('DONE')})
-                .fail(function() {console.log('ERROR')});
+//                $.post('http://evening-sands-2459.herokuapp.com/v1/timeline', {id: ui.item[0].id})
+  //              .done(function() {console.log('DONE')})
+    //            .fail(function() {console.log('ERROR')});
+                post_event(ui.item[0].id);
             }
         }
     }).disableSelection();
 
-    $().click(function() {
-    })
+    $('#delete').click(function() {
+        $.ajax({
+            type: "DELETE",
+            url: 'http://evening-sands-2459.herokuapp.com/v1/timeline',
+    //        dataType: "jsonp",
+      //      jsonp: "callbackname",
+            crossDomain : true,
+            data: {
+                id: event_id
+            },
+            success: function(result) {
+                console.log('SUCCESS');
+            },
+            error: function(data) {
+                console.log('ERROR');
+            }
+        });
+    });
 
 }
 
@@ -63,5 +80,24 @@ function fill_list(data, list_id) {
                 id: element._id['$oid']
             }).text(element.name)
         );
+    });
+}
+
+function post_event(event_id) {
+    $.ajax({
+        type: "POST",
+        url: 'http://evening-sands-2459.herokuapp.com/v1/timeline',
+//        dataType: "jsonp",
+  //      jsonp: "callbackname",
+        crossDomain : true,
+        data: {
+            id: event_id
+        },
+        success: function(result) {
+            console.log('SUCCESS');
+        },
+        error: function(data) {
+            console.log('ERROR');
+        }
     });
 }
