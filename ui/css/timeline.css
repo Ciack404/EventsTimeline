@@ -1,0 +1,111 @@
+/******************************************************
+/* Fonts
+******************************************************/
+
+/*@font-face {
+    font-family: 'Ubuntu';
+    src: url('../fonts/ubuntu-regular.eot');
+    src: url('../fonts/ubuntu-regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ubuntu-regular.woff') format('woff'),
+        url('../fonts/ubuntu-regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Make HTML 5 elements display block-level for consistent styling */
+header, nav, article, footer, address {
+    display: block;
+}
+
+/* 1.5 Normalized Styles
+------------------------------------------------------------------------------*/
+
+html, body, article {
+    font-family: 'Helvetica', Tahoma, Verdana, Arial, sans-serif;
+    font-size: 13px;
+    color: #000;
+    margin: 0px;
+    padding: 0px;
+}
+
+h1, h2, h3 {
+    color: #000;
+    font-weight: normal;
+}
+
+h1 {
+    font-size: 22px;
+    line-height: 25px;
+}
+
+h2 {
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+ul {
+    margin: 0px;
+    padding: 0px;
+}
+
+/******************************************************
+/* Wrapper
+******************************************************/
+.wrapper {
+    width: 500px;
+    margin: 0px auto;
+}
+
+/******************************************************
+/* Containers
+******************************************************/
+.container {
+    border: 2px solid #ddd;
+    width: 200px;
+    margin-top: 20px;
+}
+
+.container > .header {
+    border-bottom: 1px solid #ddd;
+}
+
+.container > .empty {
+    display: none;
+}
+
+/******************************************************
+/* Lists
+******************************************************/
+.container > ul {
+    list-style-type: none;
+    margin: 0PX;
+    padding: 0PX;
+    min-height: 50px;
+    width: 200px;
+}
+
+#events {
+    float: left;
+}
+
+#timeline {
+    float: right;
+}
+
+.container > ul > li {
+    margin: 0 5px 5px 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    width: 120px;
+}
