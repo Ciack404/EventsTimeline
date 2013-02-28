@@ -26,6 +26,7 @@ html, body, article {
     color: #000;
     margin: 0px;
     padding: 0px;
+    text-align: center;
 }
 
 h1, h2, h3 {
@@ -84,6 +85,14 @@ ul {
     display: none;
 }
 
+#events {
+    float: left;
+}
+
+#timeline {
+    float: right;
+}
+
 #timeline > .duration {
     border-top: 1px solid #ddd;
 }
@@ -93,23 +102,30 @@ ul {
 ******************************************************/
 .container > ul {
     list-style-type: none;
-    margin: 0PX;
-    padding: 0PX;
+    margin: 0px;
+    padding: 5px 0px 0px 0px;
     min-height: 50px;
     width: 200px;
-}
-
-#events {
-    float: left;
-}
-
-#timeline {
-    float: right;
 }
 
 .container > ul > li {
     margin: 0 5px 5px 5px;
     padding: 5px;
     font-size: 1.2em;
-    width: 120px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.container > ul > li > .name{
+    margin-right: 30px;
+    font-weight: bold;
+}
+
+#events_list > li {
+    background: #e6e6e6;
+}
+
+#timeline_list > li {
+    background: #fcefa1;
 }

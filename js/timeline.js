@@ -25,7 +25,7 @@ window.onload = function() {
 //                $.post('http://evening-sands-2459.herokuapp.com/v1/timeline', {id: ui.item[0].id})
   //              .done(function() {console.log('DONE')})
     //            .fail(function() {console.log('ERROR')});
-                //post_event(ui.item[0].id);
+                post_event(ui.item[0].id);
             }
             order_list('events');
             order_list('timeline');
@@ -59,7 +59,13 @@ function fill_list(data, list_id, except) {
                     'class': 'list_element',
                     id: element._id['$oid'],
                     'data-time': element.duration
-                }).text(element.name + ' - ' + parseInt(element.duration).toHHMMSS())
+                })//.text(element.name + ' - ' + parseInt(element.duration).toHHMMSS())
+                .append($('<span></span>', {
+                    'class': 'name'
+                }).text(element.name))
+                .append($('<span></span>', {
+                    'class': 'time'
+                }).text(parseInt(element.duration).toHHMMSS()))
             );
         }
     });
@@ -95,7 +101,7 @@ Number.prototype.toHHMMSS = function () {
     return hours+':'+minutes+':'+seconds;
 }
 
-/*
+
 function post_event(event_id) {
     $.ajax({
         type: "POST",
@@ -114,4 +120,3 @@ function post_event(event_id) {
         }
     });
 }
-*/
