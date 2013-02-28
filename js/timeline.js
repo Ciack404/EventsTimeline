@@ -1,6 +1,22 @@
 window.onload = function() {
-    get_list('events');
-    get_list('timeline');
+//    get_list('events');
+  //  get_list('timeline');
+
+    $.getJSON('http://evening-sands-2459.herokuapp.com/v1/timeline?callback=?', null, function(timeline) {
+        if(timeline == []) {
+            $('#timeline > .empty').style('display: block;');
+        } else {
+            fill_list(timeline, 'timeline');
+        }
+        total();
+        $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
+            if(events == []) {
+                $('#events > .empty').style('display: block;');
+            } else {
+                fill_list(events, 'events', timeline);
+            }
+        });
+    });
 
     $('#events_list, #timeline_list').sortable({
         connectWith: "#events_list, #timeline_list",
@@ -15,6 +31,7 @@ window.onload = function() {
             }
             order_list('events');
             order_list('timeline');
+            total();
         }
     }).disableSelection();
 
@@ -46,15 +63,17 @@ function get_list(name) {
     });
 }
 
-function fill_list(data, list_id) {
+function fill_list(data, list_id, except) {
     $.each(data,function(i, element){
-        $('#' + list_id + '_list').append(
-            $('<li></li>', {
-                'class': 'list_element',
-                id: element._id['$oid'],
-                'data-time': element.duration
-            }).text(element.name + ' - ' + element.duration)
-        );
+        if($.inArray(element, except) == -1) {
+            $('#' + list_id + '_list').append(
+                $('<li></li>', {
+                    'class': 'list_element',
+                    id: element._id['$oid'],
+                    'data-time': element.duration
+                }).text(element.name + ' - ' + element.duration)
+            );
+        }
     });
     order_list(list_id);
 }
@@ -67,6 +86,15 @@ function order_list(list) {
     $('#' + list + '_list').append(elems);
 }
 
+function total() {
+    var tot= 0;
+    $('#timeline_list > li').each(function(index) {
+        tot += parseInt($(this).attr('data-time'));
+    });
+    $('#timeline > .duration').html('Total duration: ' + tot);
+}
+
+/*
 function post_event(event_id) {
     $.ajax({
         type: "POST",
@@ -85,3 +113,4 @@ function post_event(event_id) {
         }
     });
 }
+*/
