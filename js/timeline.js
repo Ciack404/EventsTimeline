@@ -1,6 +1,4 @@
 window.onload = function() {
-//    get_list('events');
-  //  get_list('timeline');
 
     $.getJSON('http://evening-sands-2459.herokuapp.com/v1/timeline?callback=?', null, function(timeline) {
         if(timeline == []) {
@@ -51,16 +49,6 @@ window.onload = function() {
         });
     });
 
-}
-
-function get_list(name) {
-    $.getJSON('http://evening-sands-2459.herokuapp.com/v1/' + name + "?callback=?", null, function(data) {
-        if(data == []) {
-            $('#' + name + '> .empty').style('display: block;');
-        } else {
-            fill_list(data, name);
-        }
-    });
 }
 
 function fill_list(data, list_id, except) {
