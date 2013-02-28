@@ -59,7 +59,7 @@ function fill_list(data, list_id, except) {
                     'class': 'list_element',
                     id: element._id['$oid'],
                     'data-time': element.duration
-                }).text(element.name + ' - ' + element.duration)
+                }).text(element.name + ' - ' + parseInt(element.duration).toHHMMSS())
             );
         }
     });
@@ -79,7 +79,20 @@ function total() {
     $('#timeline_list > li').each(function(index) {
         tot += parseInt($(this).attr('data-time'));
     });
-    $('#timeline > .duration').html('Total duration: ' + tot);
+    $('#timeline > .duration').html('Total duration: ' + tot.toHHMMSS());
+}
+
+Number.prototype.toHHMMSS = function () {
+    var seconds = Math.floor(this),
+        hours = Math.floor(seconds / 3600);
+    seconds -= hours*3600;
+    var minutes = Math.floor(seconds / 60);
+    seconds -= minutes*60;
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds;
 }
 
 /*
