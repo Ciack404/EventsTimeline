@@ -59,7 +59,7 @@ function fill_list(data, list_id, except) {
                     'class': 'list_element',
                     id: element._id['$oid'],
                     'data-time': element.duration
-                })//.text(element.name + ' - ' + parseInt(element.duration).toHHMMSS())
+                })
                 .append($('<span></span>', {
                     'class': 'name'
                 }).text(element.name))
