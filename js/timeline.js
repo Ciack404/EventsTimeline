@@ -1,5 +1,6 @@
 window.onload = function() {
 
+    // Setup lists
     $.getJSON('http://evening-sands-2459.herokuapp.com/v1/timeline?callback=?', null, function(timeline) {
         if(timeline.length == 0) {
             $('#timeline > .empty').css('display', 'block');
@@ -8,16 +9,10 @@ window.onload = function() {
         }
         total();
         $('#timeline > .load').hide();
-        $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
-            if(events.length == 0) {
-                $('#events > .empty').show();
-            } else {
-                fill_list(events, 'events', timeline);
-            }
-            $('#events > .load').hide();
-        });
+        get_events(timeline);
     });
 
+    // Drag&Drop
     $('#events_list, #timeline_list').sortable({
         connectWith: "#timeline_list",
         beforeStop: function(event, ui) {
@@ -42,31 +37,42 @@ window.onload = function() {
         }
     }).disableSelection();
 
+    // Clear button trigger
     $('#delete').click(function() {
-        $.ajax({
+/*        $.ajax({
             type: "DELETE",
             url: 'http://evening-sands-2459.herokuapp.com/v1/timeline',
     //        dataType: "jsonp",
       //      jsonp: "callbackname",
             crossDomain : true,
             success: function(result) {
-                $('#timeline_list').empty();
-                $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
-                    if(events.length == 0) {
-                        $('#events > .empty').show();
-                    } else {
-                        fill_list(events, 'events', []);
-                    }
-                });
-            },
+ */               $('#timeline_list').empty();
+                $('#timeline > .empty').show();
+                $('#events_list').empty();
+                $('#events > .load').show();
+                get_events([]);
+/*            },
             error: function(data) {
                 //console.log('ERROR');
             }
-        });
+        });*/
     });
 
 }
 
+// Request for events
+function get_events(except) {
+    $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
+        if(events.length == 0) {
+            $('#events > .empty').show();
+        } else {
+            fill_list(events, 'events', except);
+        }
+        $('#events > .load').hide();
+    });
+}
+
+// Generate list
 function fill_list(data, list_id, except) {
     $.each(data,function(i, element){
         if($.inArray(element, except) == -1) {
@@ -88,6 +94,7 @@ function fill_list(data, list_id, except) {
     order_list(list_id);
 }
 
+// Order list by duration
 function order_list(list) {
     var elems = $('#' + list + '_list').children('li').remove();
     elems.sort(function(a,b){
@@ -96,6 +103,7 @@ function order_list(list) {
     $('#' + list + '_list').append(elems);
 }
 
+// Calculate list total time
 function total() {
     var tot= 0;
     $('#timeline_list > li').each(function(index) {
@@ -104,6 +112,7 @@ function total() {
     $('#timeline > .duration').html('Total duration: ' + tot.toHHMMSS());
 }
 
+// Format time
 Number.prototype.toHHMMSS = function () {
     var seconds = Math.floor(this),
         hours = Math.floor(seconds / 3600);
@@ -117,6 +126,7 @@ Number.prototype.toHHMMSS = function () {
     return hours+':'+minutes+':'+seconds;
 }
 
+// POST request - FIX
 function post_event(event_id) {
     $.ajax({
         type: "POST",
