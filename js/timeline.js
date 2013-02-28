@@ -1,43 +1,20 @@
 window.onload = function() {
-/*    // Enable cross domain
-    $.support.cors = true;
-    // Ajax call to get events
-    $.ajax({
-        type: 'GET',
-        url: 'http://evening-sands-2459.herokuapp.com/v1/events', //proxy.php?url=
-        dataType: 'jsonp',
-//        async: false,
-        contentType: 'application/json',
-        crossdomain: true,
-        xhrFields: {
-            withCredentials: true
-        },
-        cache: false,
-        success: function(data) {
-            console.log('SUCCESS');
-            //get_events(data);
-        },
-        error: function(error) {
-            console.log('ERROR');
-            console.log(error);
-        }
-    });
-*/
     get_list('events');
     get_list('timeline');
 
     $('#events_list, #timeline_list').sortable({
         connectWith: "#events_list, #timeline_list",
-        beforeStop: function(event, ui){
-            
+        beforeStop: function(event, ui) {
         },
         receive: function(event, ui) {
             if($(this)[0].id == 'timeline_list') { //ui.item.parent()[0].id
 //                $.post('http://evening-sands-2459.herokuapp.com/v1/timeline', {id: ui.item[0].id})
   //              .done(function() {console.log('DONE')})
     //            .fail(function() {console.log('ERROR')});
-                post_event(ui.item[0].id);
+                //post_event(ui.item[0].id);
             }
+            order_list('events');
+            order_list('timeline');
         }
     }).disableSelection();
 
@@ -49,10 +26,10 @@ window.onload = function() {
       //      jsonp: "callbackname",
             crossDomain : true,
             success: function(result) {
-                console.log('SUCCESS');
+                $('#timeline_list').empty();
             },
             error: function(data) {
-                console.log('ERROR');
+                //console.log('ERROR');
             }
         });
     });
@@ -76,7 +53,7 @@ function fill_list(data, list_id) {
                 'class': 'list_element',
                 id: element._id['$oid'],
                 'data-time': element.duration
-            }).text(element.name)
+            }).text(element.name + ' - ' + element.duration)
         );
     });
     order_list(list_id);
@@ -85,7 +62,7 @@ function fill_list(data, list_id) {
 function order_list(list) {
     var elems = $('#' + list + '_list').children('li').remove();
     elems.sort(function(a,b){
-        return parseInt($(a).attr('data-time')) > parseInt($(b).attr('data-time'));
+        return ((parseInt($(b).attr('data-time')) > parseInt($(a).attr('data-time'))) || (parseInt($(b).attr('data-time')) - parseInt($(a).attr('data-time'))));
     });
     $('#' + list + '_list').append(elems);
 }
@@ -101,10 +78,10 @@ function post_event(event_id) {
             id: event_id
         },
         success: function(result) {
-            console.log('SUCCESS');
+            //console.log('SUCCESS');
         },
         error: function(data) {
-            console.log('ERROR');
+            //console.log('ERROR');
         }
     });
 }
