@@ -48,9 +48,6 @@ window.onload = function() {
     //        dataType: "jsonp",
       //      jsonp: "callbackname",
             crossDomain : true,
-            data: {
-                id: event_id
-            },
             success: function(result) {
                 console.log('SUCCESS');
             },
@@ -77,10 +74,20 @@ function fill_list(data, list_id) {
         $('#' + list_id + '_list').append(
             $('<li></li>', {
                 'class': 'list_element',
-                id: element._id['$oid']
+                id: element._id['$oid'],
+                'data-time': element.duration
             }).text(element.name)
         );
     });
+    order_list(list_id);
+}
+
+function order_list(list) {
+    var elems = $('#' + list + '_list').children('li').remove();
+    elems.sort(function(a,b){
+        return parseInt($(a).attr('data-time')) > parseInt($(b).attr('data-time'));
+    });
+    $('#' + list + '_list').append(elems);
 }
 
 function post_event(event_id) {
