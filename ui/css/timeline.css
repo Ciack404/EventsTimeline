@@ -82,6 +82,11 @@ ul {
     border-bottom: 1px solid #ddd;
 }
 
+.container > .load {
+    position: absolute;
+    width: 200px;
+}
+
 .container > .empty {
     display: none;
     position: absolute;
@@ -107,7 +112,7 @@ ul {
     list-style-type: none;
     margin: 0px;
     padding: 5px 0px 0px 0px;
-    min-height: 50px;
+    min-height: 200px;
     width: 200px;
 }
 
