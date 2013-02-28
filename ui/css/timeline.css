@@ -41,6 +41,7 @@ h1 {
 
 h2 {
     font-size: 16px;
+    color: #2f4f4f;
 }
 
 a {
@@ -83,6 +84,8 @@ ul {
 
 .container > .empty {
     display: none;
+    position: absolute;
+    width: 200px;
 }
 
 #events {

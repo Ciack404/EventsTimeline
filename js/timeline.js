@@ -1,15 +1,15 @@
 window.onload = function() {
 
     $.getJSON('http://evening-sands-2459.herokuapp.com/v1/timeline?callback=?', null, function(timeline) {
-        if(timeline == []) {
-            $('#timeline > .empty').style('display: block;');
+        if(timeline.length == 0) {
+            $('#timeline > .empty').css('display', 'block');
         } else {
             fill_list(timeline, 'timeline');
         }
         total();
         $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
-            if(events == []) {
-                $('#events > .empty').style('display: block;');
+            if(events.length == 0) {
+                $('#events > .empty').show();
             } else {
                 fill_list(events, 'events', timeline);
             }
@@ -17,7 +17,7 @@ window.onload = function() {
     });
 
     $('#events_list, #timeline_list').sortable({
-        connectWith: "#events_list, #timeline_list",
+        connectWith: "#timeline_list",
         beforeStop: function(event, ui) {
         },
         receive: function(event, ui) {
@@ -30,6 +30,13 @@ window.onload = function() {
             order_list('events');
             order_list('timeline');
             total();
+            $('#timeline > .empty').css('display', 'none');
+            if($('#events_list > li').length == 0) {
+                $('#events > .empty').show();
+            }
+            if($('#timeline_list > li').length == 0) {
+                $('#timeline > .empty').hide();
+            }
         }
     }).disableSelection();
 
@@ -42,6 +49,13 @@ window.onload = function() {
             crossDomain : true,
             success: function(result) {
                 $('#timeline_list').empty();
+                $.getJSON('http://evening-sands-2459.herokuapp.com/v1/events?callback=?', null, function(events) {
+                    if(events.length == 0) {
+                        $('#events > .empty').show();
+                    } else {
+                        fill_list(events, 'events', []);
+                    }
+                });
             },
             error: function(data) {
                 //console.log('ERROR');
